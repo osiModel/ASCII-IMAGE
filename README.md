@@ -1,2 +1,2 @@
-# ASCII-IMAGE
-The tool that converts your png/jpeg files into set of ASCII symbols
+# Path_Finder
+The tool that finds shortest path in the maze using opencv.

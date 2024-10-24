@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "cstdint": "cpp",
-        "string_view": "cpp",
-        "ostream": "cpp"
-    }
-}

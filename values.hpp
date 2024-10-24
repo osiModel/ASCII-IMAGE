@@ -2,18 +2,21 @@
 #define VALUES_HPP 
 
 #include <cstdint>
-#include <string_view>
+//#include <string_view>
 #include <vector>
 #include <utility>
+#include <array>
 
 namespace{
-    using Pixel = uint8_t;
+    using Pixel = bool;
     using std::vector;
+    using std::array;
     using std::pair; 
-    constexpr std::string_view CHARS = "BW";    
-    constexpr float DIV = 256/CHARS.size(); 
+    using Pos = pair<uint16_t,uint16_t>; 
+    //constexpr std::string_view CHARS = "BW"; - black and white
+    //constexpr float DIV = 256/CHARS.size(); - for more types of colors
 }
 
-vector<pair<int16_t,int16_t>> Calculate(const vector<vector<Pixel>>& , const int32_t&);
+vector<Pos> Calculate(const vector<vector<Pixel>>& ,int32_t& ,const vector<uint16_t>&);
 
 #endif // VALUES_HPP

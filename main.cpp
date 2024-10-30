@@ -1,7 +1,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
 #include <iostream>
-#include "values.hpp"
+#include "include/values.hpp"
 
 int main()
 {
@@ -29,13 +29,7 @@ int main()
         std::cout<<std::endl;
     }
 
-    /*
-    std::cout<<"PATH IS FINDED!\n";
-    for(const auto& i : Calculate(map, simplestPath)){
-        std::cout<<i.first<<"-x "<<i.second<<"-y\n";
-    }
-    std::cout<<"Size of path is: "<<simplestPath<<std::endl;
-    */
+    Calculate(map,start,end);
 
     return EXIT_SUCCESS;
 }

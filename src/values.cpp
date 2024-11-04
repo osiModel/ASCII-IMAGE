@@ -1,4 +1,4 @@
-#include "values.hpp"
+#include "algorithm/values.hpp"
 #include <cmath>
 #include <stack>
 #include <cfloat>
@@ -7,11 +7,10 @@
 
 namespace{
     using std::cout;
+    using std::cerr;
     using std::stack;
     using std::pow;
     using std::sqrt;
-    using std::make_pair;
-    vector<vector<int8_t>> DIRECTIONS = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}, {-1, 1}, {-1, -1}, {1, 1}, {1, -1}};
 }
 
 
@@ -34,24 +33,42 @@ inline double HValue(const Pos& pos, const Pos& end){
 }
 
 void PrintPath(const Details& detail, const Pos& end){
-    uint16_t endY = end.first;
-    uint16_t endX = end.second;
+    uint16_t Y = end.first;
+    uint16_t X = end.second;
     stack<Pos> path;
     cout<<"PATH IS FINDED: ";
-    while(!(detail[endY][endX].xParent == endX && detail[endY][endX].yParent == endY)){
-        path.push({endY,endX});
-        uint16_t tempX = detail[endY][endX].xParent;
-        uint16_t tempY = detail[endY][endX].yParent;
-        endY = tempY;
-        endX = tempX;
+    while(!(detail[Y][X].xParent == X && detail[Y][X].yParent == Y)){
+        path.push({Y,X});
+        uint16_t tempX = detail[Y][X].xParent;
+        uint16_t tempY = detail[Y][X].yParent;
+        Y = tempY;
+        X = tempX;
     } 
-    path.push({endY,endX});
+    path.push({Y,X});
     while(!path.empty()){
         Pos p = path.top();
         path.pop();
         cout<<"-> "<<p.second+1<<"-x "<<p.first+1<<"-y ";
     }
     cout<<"\n";
+}
+
+vector<Pos> Path(const Details& details, const Pos& start, const Pos& end){
+    vector<Pos> path;
+    uint16_t X = end.second;
+    uint16_t Y = end.first;
+
+    while(!(details[Y][X].xParent == X 
+        && details[Y][X].yParent == Y)){
+            path.push_back({Y,X});
+            uint16_t tempX = details[Y][X].xParent;
+            uint16_t tempY = details[Y][X].yParent;
+            X = tempX;
+            Y = tempY;
+    }
+    path.push_back({Y,X});
+
+    return path;
 }
 
 void DirectionBlueprint(const array<Pos, 4>& positions, 
@@ -74,7 +91,6 @@ void DirectionBlueprint(const array<Pos, 4>& positions,
             PrintPath(details, positions[1]);
             founded = true;
             return;
-
         }else if(!closedList[y][x] && !IsWall(map, positions[0])){
             g = details[prevY][prevX].g + 1.414;
             h = HValue(positions[0], positions[1]);
@@ -92,27 +108,27 @@ void DirectionBlueprint(const array<Pos, 4>& positions,
     }
 }
 
-void Calculate(const Map& map, 
+vector<Pos> Calculate(const Map& map, 
 const Pos& start, const Pos& end){
     Pos range = {map.size()-1,map[0].size()-1}; 
-    cout<<range.first<<" "<<range.second<<std::endl;
     if(!InRange(start,range)){
         std::cerr<<"Invalid start coords!";
-        return;
+        return vector<Pos>();
     }
 
     if(!InRange(end,range)){
         std::cerr<<"Invalid end coords!";
-        return;
+        return vector<Pos>();;
     }
 
     if(IsWall(map, start) || IsWall(map, end)){
         std::cerr<<"Start or end is blocked!";
-        return;
+        return vector<Pos>();;
     }
 
     if(IsEnd(start,end)){
         cout<<"Start is already at the destination!\n";
+        return vector<Pos>();
     }
 
     Map closedList(range.first+1, vector<Pixel>(range.second+1,false));
@@ -141,7 +157,7 @@ const Pos& start, const Pos& end){
 
     bool founded = false;
 
-    while(!openList.empty()){
+    while(!openList.empty() && !founded){
         dPair dp = *openList.begin();
         openList.erase(openList.begin());
 
@@ -154,12 +170,16 @@ const Pos& start, const Pos& end){
             uint16_t newY = dir[0] + y;
             uint16_t newX = dir[1] + x;
             if(dir[0] + y >= 0 && dir[1] + x >= 0){
-                DirectionBlueprint({make_pair(newY, newX),end,range,make_pair(y,x)},details,founded,openList,closedList,map,gNew,hNew,fNew);
+                DirectionBlueprint({make_pair(newY, newX),end,range,make_pair(y,x)},details,
+                                        founded,openList,closedList,map,gNew,hNew,fNew);
             }
         }
-        if(founded)
-            return;
+    }    
+
+    if (!founded){
+       cerr<<"Failed to find the Destination Cell\n";
+       return vector<Pos>();
     }
-    if (founded == false)
-        cout<<"Failed to find the Destination Cell\n";
+
+    return Path(details,start,end);
 }

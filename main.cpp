@@ -1,36 +1,44 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
+#include "values.hpp"
 #include <iostream>
-#include "include/values.hpp"
+#include <vector>
+#include <cstdint>
+#include <stack>
 
-int main()
-{
+int main(int argc, char** argv){
+    if(argc != 2){
+        std::cerr<<"Enter the img path!\n";
+        return EXIT_FAILURE;
+    }
+
     cv::Mat image; 
-    Pos start {-1, -1};
-    Pos end {-1, -1}; 
-    int32_t simplestPath{};
-    image = cv::imread("../images/color_1.png",cv::IMREAD_GRAYSCALE); 
-    Map map(image.cols, vector<Pixel>(image.rows));
-
-    for(int32_t i = 0;i<image.cols;++i){
-        for(int32_t j = 0;j<image.rows;++j){
+    bool status = false;
+    Pos start {INT16_MAX, INT16_MAX};
+    Pos end {INT16_MAX, INT16_MAX}; 
+    image = cv::imread(argv[1],cv::IMREAD_GRAYSCALE); 
+    Map map(image.cols, std::vector<Pixel>(image.rows));
+    
+    for(int16_t i = 0;i<image.cols;++i){
+        for(int16_t j = 0;j<image.rows;++j){
             uint8_t greyPixel = image.at<uint8_t>(i,j);
             map[i][j] = (greyPixel >= 180);
-            std::cout<<map[i][j]<<" ";
-            if((i == 0 || i == image.cols-1 || 
-                j == 0 || j == image.rows-1) && map[i][j] >= 40 && map[i][j] <= 180){
-                    if(start.first == -1){
+            if(greyPixel >= 40 && greyPixel <= 180){
+                    if(start.first == INT16_MAX){
                         start = {i,j};
                     } else {
                         end = {i,j};
+                        status = true;
                     }
+                    map[i][j] = 1;
             }
+            std::cout<<map[i][j]<<" ";
         }
         std::cout<<std::endl;
     }
-
-    Calculate(map,start,end);
+    if(status){
+        Calculate(map,start,end);
+    }
 
     return EXIT_SUCCESS;
 }
-

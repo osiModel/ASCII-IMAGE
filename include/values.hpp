@@ -10,7 +10,7 @@
 
 namespace{
     struct Cell{
-        int yParent{}, xParent{};
+        uint16_t yParent{}, xParent{};
         double f{},g{},h{}; 
     };
 
@@ -20,26 +20,25 @@ namespace{
     using std::array;
     using std::vector;
     using Pixel = bool;
-    using Pos = pair<int,int>; 
+    using Pos = pair<uint16_t,uint16_t>; 
     using Map = vector<vector<Pixel>>;
     using Details = vector<vector<Cell>>;
-    using crPos = const Pos&;
-    using dPair = pair<double,pair<int,int>>; 
+    using dPair = pair<double,pair<uint16_t,uint16_t>>; 
 
     //constexpr std::string_view CHARS = "BW"; - black and white
     //constexpr float DIV = 256/CHARS.size(); - for more types of colors
 }
 
-inline bool InRange(crPos, crPos);
-inline bool IsWall(const Map&, crPos);
-inline bool IsEnd(crPos, crPos);
-inline double HValue(crPos, crPos);
+inline bool InRange(const Pos&, const Pos&);
+inline bool IsWall(const Map&, const Pos&);
+inline bool IsEnd(const Pos&, const Pos&);
+inline double HValue(const Pos&, const Pos&);
 
 
 void DirectionBlueprint(const array<Pos, 4>&, Details&,
                         bool&, set<dPair>&, const Map&, const Map&, 
                         double&, double&, double&);
-void PrintPath(const Details&, crPos);
-void Calculate(const Map&, crPos, crPos);
+void PrintPath(const Details&, const Pos&);
+void Calculate(const Map&, const Pos&, const Pos&);
 
 #endif // VALUES_HPP

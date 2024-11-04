@@ -15,7 +15,7 @@ namespace{
 }
 
 
-inline bool InRange(crPos pos, crPos range){
+inline bool InRange(const Pos& pos, const Pos& range){
     return ((pos.first <= range.first) && (pos.second <= range.second) && (pos.second >= 0) && (pos.first >= 0));
 }
 
@@ -25,15 +25,15 @@ inline bool IsWall(const Map& map, const Pos& pos){
     return map[pos.first][pos.second] == 0;
 }
 
-inline bool IsEnd(crPos start, crPos end){
+inline bool IsEnd(const Pos& start, const Pos& end){
     return start == end;
 }
 
-inline double HValue(crPos pos, crPos end){
+inline double HValue(const Pos& pos, const Pos& end){
     return  sqrt(pow((end.first - pos.first),2) + pow((end.second - pos.second),2));  
 }
 
-void PrintPath(const Details& detail, crPos end){
+void PrintPath(const Details& detail, const Pos& end){
     uint16_t endY = end.first;
     uint16_t endX = end.second;
     stack<Pos> path;
@@ -93,7 +93,7 @@ void DirectionBlueprint(const array<Pos, 4>& positions,
 }
 
 void Calculate(const Map& map, 
-crPos start, crPos end){
+const Pos& start, const Pos& end){
     Pos range = {map.size()-1,map[0].size()-1}; 
     cout<<range.first<<" "<<range.second<<std::endl;
     if(!InRange(start,range)){
@@ -118,8 +118,8 @@ crPos start, crPos end){
     Map closedList(range.first+1, vector<Pixel>(range.second+1,false));
     Details details(range.first+1, vector<Cell>(range.second+1));
 
-    for(uint16_t i = 0;i<=range.first;++i){
-        for(uint16_t j = 0;j<=range.second;++j){
+    for(size_t i = 0;i<=range.first;++i){
+        for(size_t j = 0;j<=range.second;++j){
             details[i][j].f = DBL_MAX;
             details[i][j].g = DBL_MAX;
             details[i][j].h = DBL_MAX;

@@ -5,7 +5,8 @@ project(test)
 set(CXX_STANDARD_REQUIRED 17)
 set(SOURCES
     main.cpp
-    src/values.cpp)
+    src/astar.cpp
+    src/path.cpp)
 
 find_package(OpenCV REQUIRED)
 

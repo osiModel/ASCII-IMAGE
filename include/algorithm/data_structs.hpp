@@ -10,7 +10,7 @@ namespace{
     };
 
     vector<vector<int8_t>> DIRECTIONS = {{-1, 0}, {1, 0}, {0, 1}, {0, -1},
-                                        {-1, 1}, {-1, -1}, {1, 1}, {1, -1}};
+                                        /*{-1, 1}, {-1, -1}, {1, 1}, {1, -1}*/};
 }
 
 #endif // DATA_STRUCTS_HPP

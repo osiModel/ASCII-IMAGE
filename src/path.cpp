@@ -32,19 +32,12 @@ inline void SaveImg(const cv::Mat& image, const string& path){
     cv::imwrite(path, image);
 }
 
-void DrawPath(const cv::Mat& imageReference, const vector<Pos>& mazePath, const uint16_t& size){   
+void DrawPath(const cv::Mat& imageReference, const vector<Pos>& mazePath){   
     cv::Mat image = imageReference.clone();
 
-    uint16_t counter{};
     for(const auto& cord : mazePath){
-        if(counter%size == 0){
-            for(size_t i = 0;i<size;++i){
-                for(size_t j = 0;j<size;++j){
-                    image.at<cv::Vec3b>(cord.first+i, cord.second+j) = COLOR;
-                }
-            }
-        }
-        ++counter;
+                    image.at<cv::Vec3b>(cord.first, cord.second) = COLOR;
     }
+    
     SaveImg(image, PATH);
 }

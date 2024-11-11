@@ -3,7 +3,8 @@
 #include <stack>
 #include <cfloat>
 #include <iostream>
-
+#include <array>
+#include <set>
 
 namespace{
     using std::cout;
@@ -11,25 +12,27 @@ namespace{
     using std::stack;
     using std::pow;
     using std::sqrt;
+    using std::set;
+    using std::array;
+    using std::make_pair;
+    using dPair = pair<double,pair<uint16_t,uint16_t>>; 
+    using Details = vector<vector<Cell>>;
 }
-
 
 inline bool InRange(const Pos& pos, const Pos& range){
     return ((pos.first <= range.first) && (pos.second <= range.second) && (pos.second >= 0) && (pos.first >= 0));
 }
 
-
-
 inline bool IsWall(const Map& map, const Pos& pos){
-    return map[pos.first][pos.second] == 0;
+    return (map[pos.first][pos.second] == 0);
 }
 
 inline bool IsEnd(const Pos& start, const Pos& end){
-    return start == end;
+    return (start == end);
 }
 
 inline double HValue(const Pos& pos, const Pos& end){
-    return  sqrt(pow((end.first - pos.first),2) + pow((end.second - pos.second),2));  
+    return  (sqrt(pow((end.first - pos.first),2) + pow((end.second - pos.second),2)));  
 }
 
 void PrintPath(const Details& detail, const Pos& end){
@@ -112,7 +115,7 @@ void DirectionBlueprint(const array<Pos, 4>& positions,
 }
 
 vector<Pos> Calculate(const Map& map, 
-const Pos& start, const Pos& end){
+const Pos& start, const Pos& end, const bool& diagonal){
     Pos range = {map.size()-1,map[0].size()-1}; 
     if(!InRange(start,range)){
         std::cerr<<"Invalid start coords!";
@@ -157,8 +160,11 @@ const Pos& start, const Pos& end){
 
     set<dPair> openList;
     openList.insert({0.0,{y,x}});
-
     bool founded = false;
+
+    vector<vector<int8_t>> directions(DIRECTIONS.begin(), DIRECTIONS.begin()+4);
+    if(diagonal)    
+        directions = DIRECTIONS;
 
     while(!openList.empty() && !founded){
         dPair dp = *openList.begin();
@@ -169,7 +175,7 @@ const Pos& start, const Pos& end){
         closedList[y][x] = true;
 
         double gNew{},hNew{},fNew{};
-        for(const auto& dir : DIRECTIONS){
+        for(const auto& dir : directions){
             uint16_t newY = dir[0] + y;
             uint16_t newX = dir[1] + x;
             if(dir[0] + y >= 0 && dir[1] + x >= 0){

@@ -41,17 +41,10 @@ int main(int argc, char** argv){
             }
         }
     }
-    uint16_t offset = CheckSize(greyMap,start);
-
-    start.first += offset - 1;
-    start.second += offset - 1;
-
     if(status){
         path = Calculate(map,start,end);
         
-        uint16_t size = CheckSize(greyMap,start);
-        std::cout<<size;
-        DrawPath(image,path,size);
+        DrawPath(image,path);
     } 
 
     return EXIT_SUCCESS;

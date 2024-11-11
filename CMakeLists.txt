@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.28)
 
 project(test)
 
-set(CXX_STANDARD_REQUIRED 17)
+set(CXX_STANDARD_REQUIRED 11)
 set(SOURCES
     main.cpp
     src/astar.cpp

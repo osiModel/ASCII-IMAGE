@@ -7,12 +7,15 @@
 
 namespace {
     using std::string;
+    using GreyMap = vector<vector<uint8_t>>;
+    const cv::Vec3b COLOR = {255, 0 , 0};
+    const string PATH = "../result/IMAGE.png";
 }
 
 inline void SaveImg(const cv::Mat&, const string&);
 
-void DrawPath(const cv::Mat&, const vector<Pos>&);
+void DrawPath(const cv::Mat&, const vector<Pos>&, const uint16_t& size = 1);
 
-uint16_t CheckSize(const Pos&, const Map&); // todo
+uint16_t CheckSize(const GreyMap&, const Pos&); 
 
 #endif // PATH_HPP

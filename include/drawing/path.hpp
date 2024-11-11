@@ -14,7 +14,7 @@ namespace {
 
 inline void SaveImg(const cv::Mat&, const string&);
 
-void DrawPath(const cv::Mat&, const vector<Pos>&, const uint16_t& size = 1);
+void DrawPath(const cv::Mat&, const vector<Pos>&);
 
 uint16_t CheckSize(const GreyMap&, const Pos&); 
 

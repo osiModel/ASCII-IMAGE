@@ -12,10 +12,11 @@ namespace {
     const string PATH = "../result/IMAGE.png";
 }
 
-inline void SaveImg(const cv::Mat&, const string&);
-
-void DrawPath(const cv::Mat&, const vector<Pos>&);
-
-uint16_t CheckSize(const GreyMap&, const Pos&); 
+class Painter{
+public:
+    void DrawPath(const cv::Mat&, const vector<Pos>&);
+private:
+    inline void SaveImg(const cv::Mat&, const string&);
+};
 
 #endif // PATH_HPP

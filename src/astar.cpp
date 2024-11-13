@@ -3,8 +3,6 @@
 #include <stack>
 #include <cfloat>
 #include <iostream>
-#include <array>
-#include <set>
 
 namespace{
     using std::cout;
@@ -12,30 +10,26 @@ namespace{
     using std::stack;
     using std::pow;
     using std::sqrt;
-    using std::set;
-    using std::array;
     using std::make_pair;
-    using dPair = pair<double,pair<uint16_t,uint16_t>>; 
-    using Details = vector<vector<Cell>>;
 }
 
-inline bool InRange(const Pos& pos, const Pos& range){
+inline bool AStar::InRange(const Pos& pos, const Pos& range){
     return ((pos.first <= range.first) && (pos.second <= range.second) && (pos.second >= 0) && (pos.first >= 0));
 }
 
-inline bool IsWall(const Map& map, const Pos& pos){
+inline bool AStar::IsWall(const Map& map, const Pos& pos){
     return (map[pos.first][pos.second] == 0);
 }
 
-inline bool IsEnd(const Pos& start, const Pos& end){
+inline bool AStar::IsEnd(const Pos& start, const Pos& end){
     return (start == end);
 }
 
-inline double HValue(const Pos& pos, const Pos& end){
+inline double AStar::HValue(const Pos& pos, const Pos& end){
     return  (sqrt(pow((end.first - pos.first),2) + pow((end.second - pos.second),2)));  
 }
 
-void PrintPath(const Details& detail, const Pos& end){
+void AStar::PrintPath(const Details& detail, const Pos& end){
     uint16_t Y = end.first;
     uint16_t X = end.second;
     stack<Pos> path;
@@ -56,7 +50,7 @@ void PrintPath(const Details& detail, const Pos& end){
     cout<<"\n";
 }
 
-vector<Pos> Path(const Details& details, const Pos& start, const Pos& end){
+vector<Pos> AStar::Path(const Details& details, const Pos& start, const Pos& end){
     vector<Pos> path;
     uint16_t X = end.second;
     uint16_t Y = end.first;
@@ -75,7 +69,7 @@ vector<Pos> Path(const Details& details, const Pos& start, const Pos& end){
     return path;
 }
 
-void DirectionBlueprint(const array<Pos, 4>& positions, 
+void AStar::DirectionBlueprint(const array<Pos, 4>& positions, 
                         Details& details, 
                         bool& founded, 
                         set<dPair>& openList, 
@@ -114,7 +108,7 @@ void DirectionBlueprint(const array<Pos, 4>& positions,
     }
 }
 
-vector<Pos> Calculate(const Map& map, 
+vector<Pos> AStar::Calculate(const Map& map, 
 const Pos& start, const Pos& end, const bool& diagonal){
     Pos range = {map.size()-1,map[0].size()-1}; 
     if(!InRange(start,range)){

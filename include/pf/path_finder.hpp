@@ -45,8 +45,6 @@ private:
 
     bool isFinded = false;
     bool isFilled = false;
-
-    bool isValid(const Pos&);
 };
 
 #endif // PATH_FINDER_HPP

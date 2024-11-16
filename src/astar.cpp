@@ -8,28 +8,10 @@ namespace{
     using std::cout;
     using std::cerr;
     using std::stack;
-    using std::pow;
-    using std::sqrt;
     using std::make_pair;
 }
 
-inline bool AStar::InRange(const Pos& pos, const Pos& range){
-    return ((pos.first <= range.first) && (pos.second <= range.second) && (pos.second >= 0) && (pos.first >= 0));
-}
-
-inline bool AStar::IsWall(const Map& map, const Pos& pos){
-    return (map[pos.first][pos.second] == 0);
-}
-
-inline bool AStar::IsEnd(const Pos& start, const Pos& end){
-    return (start == end);
-}
-
-inline double AStar::HValue(const Pos& pos, const Pos& end){
-    return  (sqrt(pow((end.first - pos.first),2) + pow((end.second - pos.second),2)));  
-}
-
-void AStar::PrintPath(const Details& detail, const Pos& end){
+void PrintPath(const Details& detail, const Pos& end){
     uint16_t Y = end.first;
     uint16_t X = end.second;
     stack<Pos> path;
@@ -134,8 +116,8 @@ const Pos& start, const Pos& end, const bool& diagonal){
     Map closedList(range.first+1, vector<Pixel>(range.second+1,false));
     Details details(range.first+1, vector<Cell>(range.second+1));
 
-    for(size_t i = 0;i<=range.first;++i){
-        for(size_t j = 0;j<=range.second;++j){
+    for(uint16_t i = 0;i<=range.first;++i){
+        for(uint16_t j = 0;j<=range.second;++j){
             details[i][j].f = DBL_MAX;
             details[i][j].g = DBL_MAX;
             details[i][j].h = DBL_MAX;
@@ -178,7 +160,7 @@ const Pos& start, const Pos& end, const bool& diagonal){
             }
         }
     }    
-
+    //PrintPath(details,end); <- if you want to print path to console
     if (!founded){
        cerr<<"Failed to find the Destination Cell\n";
        return vector<Pos>();

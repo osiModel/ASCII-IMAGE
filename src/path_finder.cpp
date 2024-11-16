@@ -8,7 +8,7 @@ namespace{
     using cv::IMREAD_GRAYSCALE;
 }
 
-bool PathFinder::isValid(const Pos& pos){
+bool PathFinder::IsValid(const Pos& pos){
     uint16_t yRange = m_greyMap.size();
     uint16_t xRange = m_greyMap[0].size();  
     uint16_t y = pos.first;
@@ -46,7 +46,7 @@ void PathFinder::FillUp(){
     uint16_t x = m_start.second;
     uint16_t y = m_start.first;   
 
-    while(isValid({++y,++x})){
+    while(IsValid({++y,++x})){
         ++m_pixelSize;
     }
 

@@ -7,16 +7,31 @@
 
 namespace {
     using std::string;
+    using cv::Mat;
+    using cv::Vec3b;
+    using cv::imwrite;
     using GreyMap = vector<vector<uint8_t>>;
-    const cv::Vec3b COLOR = {255, 0 , 0};
-    const string PATH = "../result/IMAGE.png";
+    const Vec3b COLOR = {255, 0 , 0};
+    const string SAVE_PATH = "../result/IMAGE.png";
 }
 
 class Painter{
 public:
-    void DrawPath(const cv::Mat&, const vector<Pos>&);
+    Painter() = default;
+    Painter(const string&);
+
+    void DrawPath(const Mat&, const vector<Pos>&);
+
+    void SetPixelSize(const uint16_t& pixelSize){
+        m_pixelSize = pixelSize;
+    }
 private:
-    inline void SaveImg(const cv::Mat&, const string&);
+    void SaveImg(const cv::Mat& image, const string& path){
+        imwrite(path, image);
+    }
+
+    string m_savePath = SAVE_PATH;
+    uint16_t m_pixelSize = 1; 
 };
 
 #endif // PATH_HPP

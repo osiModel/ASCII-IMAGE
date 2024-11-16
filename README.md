@@ -9,7 +9,7 @@ Using A* (astar) algorithm it finds the shortest math.
 ![IMAGE](https://github.com/user-attachments/assets/9925c626-6610-4a75-8ff8-8216442f4a33)
 
 ### How to make it? 
-First of all you need to to set image path.You can do it bu member function:
+First of all you need to set image path.You can do it by calling member function:
 ```
 PathFinder pf;
 pf.SetImagePath("path/to/img.png");
@@ -24,9 +24,9 @@ After that you need to call 2 member functions **FindPath()** and **DrawPath()**
 Image will be saved to the default save path if you don't set one.
 
 ##Additional:
-1. To get the height and length call GetWidht() and GetHeight() accordingly.
-2. To set diagonal movement call SetDiagonal() method.
-3. To set image and save path call SetImagePath and SetSavePath respectively.  
+1. To get the height and length call **GetWidht()** and **GetHeight()** accordingly.
+2. To set diagonal movement call **SetDiagonal()** method.
+3. To set image and save path call **SetImagePath** and **SetSavePath** respectively.  
 
 To run the project (in terminal):
 ```

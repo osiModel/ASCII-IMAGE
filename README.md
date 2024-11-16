@@ -35,6 +35,7 @@ cd build
 cmake --build .
 ./PathFinder 
 ```
+**For project to work you need to create result folder in main directory.**  
 
 ### To use this project you need:
   1. C++11

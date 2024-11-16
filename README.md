@@ -26,7 +26,7 @@ Image will be saved to the default save path if you don't set one.
 ## Additional:
 1. To get the height and length call **GetWidht()** and **GetHeight()** accordingly.
 2. To set diagonal movement call **SetDiagonal()** method.
-3. To set image and save path call **SetImagePath** and **SetSavePath** respectively.  
+3. To set image and save path call **SetImagePath()** and **SetSavePath()** respectively.  
 
 To run the project (in terminal):
 ```

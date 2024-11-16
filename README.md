@@ -36,7 +36,7 @@ cmake --build .
 ./PathFinder 
 ```
 
-###To use this project you need:
+### To use this project you need:
   1. C++11
   2. opencv
   3. CMake 3.28

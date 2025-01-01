@@ -16,14 +16,17 @@ void PrintPath(const Details& detail, const Pos& end){
     uint16_t X = end.second;
     stack<Pos> path;
     cout<<"PATH IS FINDED: ";
+
     while(!(detail[Y][X].xParent == X && detail[Y][X].yParent == Y)){
         path.push({Y,X});
         uint16_t tempX = detail[Y][X].xParent;
         uint16_t tempY = detail[Y][X].yParent;
         Y = tempY;
         X = tempX;
+
     } 
     path.push({Y,X});
+    
     while(!path.empty()){
         Pos p = path.top();
         path.pop();
@@ -49,45 +52,6 @@ vector<Pos> AStar::Path(const Details& details, const Pos& start, const Pos& end
     }
 
     return path;
-}
-
-void AStar::DirectionBlueprint(const array<Pos, 4>& positions, 
-                        Details& details, 
-                        bool& founded, 
-                        set<dPair>& openList, 
-                        const Map& closedList,
-                        const Map& map,
-                        double& g,
-                        double& h,
-                        double& f){
-    if(InRange(positions[0], positions[2])){
-        uint16_t y = positions[0].first;
-        uint16_t x = positions[0].second;
-        uint16_t prevY = positions[3].first;
-        uint16_t prevX = positions[3].second;
-        if(IsEnd(positions[0], positions[1])){
-            details[y][x].xParent = prevX;
-            details[y][x].yParent = prevY;  
-            /*
-            PrintPath(details, positions[1]);
-            */
-            founded = true;
-            return;
-        }else if(!closedList[y][x] && !IsWall(map, positions[0])){
-            g = details[prevY][prevX].g + 1.414;
-            h = HValue(positions[0], positions[1]);
-            f = g + h;
-
-            if(details[y][x].f == DBL_MAX || details[y][x].f > f){
-                openList.insert({f,{y,x}});
-                details[y][x].g = g;
-                details[y][x].h = h;
-                details[y][x].f = f;
-                details[y][x].xParent = prevX;
-                details[y][x].yParent = prevY;
-            }
-        }
-    }
 }
 
 vector<Pos> AStar::Calculate(const Map& map, 
@@ -145,18 +109,45 @@ const Pos& start, const Pos& end, const bool& diagonal){
     while(!openList.empty() && !founded){
         dPair dp = *openList.begin();
         openList.erase(openList.begin());
-
+        double gNew{},hNew{},fNew{};
         y = dp.second.first;
         x = dp.second.second;
         closedList[y][x] = true;
 
-        double gNew{},hNew{},fNew{};
         for(const auto& dir : directions){
             uint16_t newY = dir[0] + y;
             uint16_t newX = dir[1] + x;
+            const Pos posNew = {newY,newX}; 
+            const Pos posCurr = {y,x};
+
             if(dir[0] + y >= 0 && dir[1] + x >= 0){
-                DirectionBlueprint({make_pair(newY, newX),end,range,make_pair(y,x)},details,
-                                        founded,openList,closedList,map,gNew,hNew,fNew);
+                if(InRange(posNew, range)){
+                    uint16_t y = posNew.first;
+                    uint16_t x = posNew.second;
+                    uint16_t prevY = posCurr.first;
+                    uint16_t prevX = posCurr.second;
+                    if(IsEnd(posNew, end)){
+                        details[y][x].xParent = prevX;
+                        details[y][x].yParent = prevY;  
+                        /*
+                        PrintPath(details, end);
+                        */
+                        founded = true;
+                        break;
+                    }else if(!closedList[y][x] && !IsWall(map, posNew)){
+                        gNew = details[prevY][prevX].g + 1.414f;
+                        hNew = HValue(posNew, end);
+                        fNew = gNew + hNew;
+                        if(details[y][x].f == DBL_MAX || details[y][x].f > fNew){
+                            openList.insert({fNew,{y,x}});
+                            details[y][x].g = gNew;
+                            details[y][x].h = hNew;
+                            details[y][x].f = fNew;
+                            details[y][x].xParent = prevX;
+                            details[y][x].yParent = prevY;
+                        }
+                    }
+                }
             }
         }
     }    

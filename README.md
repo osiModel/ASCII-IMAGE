@@ -2,8 +2,8 @@
 ## **The tool that finds the shortest path in the maze using opencv and A* (astar) algorithm.**
 
 ## How it works?
+Using A* (astar) algorithm it finds the shortest path (my own implementation).
 Using opencv it scans every pixel on the image and draws path on image. 
-Using A* (astar) algorithm it finds the shortest math.
 
 ### **Example:**
 ![IMAGE](https://github.com/user-attachments/assets/9925c626-6610-4a75-8ff8-8216442f4a33)

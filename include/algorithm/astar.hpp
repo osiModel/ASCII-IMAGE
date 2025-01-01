@@ -35,16 +35,6 @@ private:
     }
 
     vector<Pos> Path(const Details&, const Pos&, const Pos&);
-    void DirectionBlueprint(const array<Pos, 4>&, 
-                        Details&, 
-                        bool& founded, 
-                        set<dPair>&, 
-                        const Map&,
-                        const Map&,
-                        double&,
-                        double&,
-                        double&);
-
 };  
 
 #endif // ASTAR_HPP
